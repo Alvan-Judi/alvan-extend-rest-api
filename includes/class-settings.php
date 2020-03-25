@@ -34,6 +34,15 @@ class Settings {
      */
     public $settings_name = '';
 
+    /**
+     * Settings name
+     * 
+     * @since 1.0.0
+     * 
+     * @var string
+     */
+    public $option_name = '';
+
 	/**
 	 * Constructor.
 	 *
@@ -45,6 +54,8 @@ class Settings {
         $this->plugin = $plugin;
         
         $this->settings_name = 'aera-settings';
+        $this->option_name = 'aera_options';
+
 		$this->hooks();
     }
     
