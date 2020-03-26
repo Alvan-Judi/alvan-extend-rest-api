@@ -55,13 +55,21 @@ final class Plugin {
      */
     protected $settings;
 
-     /**
+    /**
      * Settings
      * 
      * @var Admin
      * @since 1.0.0
      */
     protected $admin;
+
+    /**
+     * Settings
+     * 
+     * @var REST_API
+     * @since 1.0.0
+     */
+    protected $rest_api;
     
     /**
 	 * Creates or returns an instance of this class.
@@ -117,6 +125,7 @@ final class Plugin {
      */
     public function plugin_classes() {
         $this->admin = new Admin( $this );
+        $this->rest_api = new REST_API( $this );
     }
 
     /**

@@ -52,6 +52,27 @@ class Admin {
 
 
     /**
+     * List post types
+     * @since 1.0.0
+     * @return array of WP_Post_Types objects
+     */
+    public function list_posts_types() {
+
+        $args = array(
+            'public' => true,
+            'show_in_rest' => true
+        );
+
+        $post_types = get_post_types(
+           $args,
+            'objects',
+            'and'
+        );
+
+        return $post_types;
+    }
+
+    /**
      * Register settings
      * 
      * @since 1.0.0
@@ -59,63 +80,112 @@ class Admin {
      */
     public function register_settings() {
 
+        /**
+         * Register the setting
+         * The first parameters is need to link settings section or settings field to it
+         * Second parameters is the option name. Every fields will be stored inside this single option.
+         * When our settings form is submited, WordPress serialized all the settings in the option.
+         */
         register_setting( 
             $this->plugin->settings->settings_name, 
-            $this->plugin->settings->option_name
+            $this->plugin->settings->posts_types_option_name
         );
 
+        /**
+         * A settings section
+         * This is optionnal, but it allow us to organize our fields settings. In this case, all the post types 
+         * settings will be grouped in it
+         */
         add_settings_section(
             'aera_post_types_section',
             __( 'Post Types', 'aera' ),
-            array( $this, 'aera_post_types_section_cb' ),
+            array( $this, 'post_types_section_cb' ),
             $this->plugin->settings->settings_name
         );
 
-        add_settings_field(
-            'aera_post_types',
-            __('Post Types'),
-            array( $this, 'post_type_field_cb' ),
-            $this->plugin->settings->settings_name,
-            'aera_post_types_section'
-        );
+        // Get all the post types
+        $post_types = $this->list_posts_types();
+
+        // Loop over the posts types to create the settings fields
+        foreach($post_types as $post_type) {
+            add_settings_field(
+                'aera_post_type_' . $post_type->name,
+                $post_type->label,
+                array( $this, 'post_type_field_cb' ),
+                $this->plugin->settings->settings_name,
+                'aera_post_types_section',
+                array(
+                    'post_type_name' => $post_type->name,
+                )
+            );
+        }
+
     }
 
-    public function aera_post_types_section_cb() {
-        echo 'Post types';
+    /**
+     * The call to the post types section
+     * 
+     * @since 1.0.0
+     * @return void
+     * 
+     */
+    public function post_types_section_cb() {
+        echo '<p>' . __( 'Select options that you want to be avaible in the REST API for each post types', 'aera' ) . '</p>';
     }
 
-    public function aera_post_type_field_cb() {
+    /**
+     * The call back for post type field
+     * 
+     * @since 1.0.0
+     * @return void
+     */
+    public function post_type_field_cb($args) {
 
-        $option_name = $this->plugin->settings->option_name;
+        $option_name = $this->plugin->settings->posts_types_option_name;
         $options = get_option($option_name);
 
-        $post_types = get_post_types(
-            array( 
-                'public' => apply_filters( 'aera_post_type_visibility', true ) 
+        $post_rest_api_fields = array(
+            'featured_media_url' => array(
+                'label' => __( 'Thumbnail URL', 'aera' ),
+                'support' => 'thumbnail'
             ),
-            'objects'
+            'author_name' => array(
+               'label' => __( 'Author\'s name', 'aera' ),
+               'support' => 'author'
+            ),
+            'avatar_url' => array(
+                'label' => __( 'Author\'s avatar URL', 'aera' ),
+                'support' => 'author'
+             ),
         );
 
-        $rest_api_fields = array(
-            'thumbnail_url' => __( 'Thumbnail URL', 'aera' ),
-            'author_name' => __( 'Author Name', 'aera' ),
-            'avatar_url' => __( 'Avatar URL', 'aera' ),
-        );
+        foreach($post_rest_api_fields as $field => $params) {
 
-        foreach( $post_types as $post_type ) {
-    
-            foreach($rest_api_fields as $field => $label) {
-               ?>
-                    <input
-                     type="checkbox" 
-                     value="<?php echo $option_name . '['. $post_type .']['. $field .']'; ?>"
-                     <?php echo  isset( $options[ $post_type ][ $field ]) ? selected( $options[ $post_type ][ $field ], $field, false ) : ''; ?>
-                     >
-                     <?php echo $label ;?>
-                     <br>
-               <?php
+            $id = $option_name . '-' . $args['post_type_name'] . '-' . $field;
+
+            if( !empty( $params['support'] ) ) {
+                
+                if( !post_type_supports( $args['post_type_name'], $params['support'] ) ) {
+                    continue;
+                }
             }
+          
+            ?>
+                <div class="input-wrap">
+                    <input
+                        id="<?php echo esc_attr($id); ?>"
+                        type="checkbox" 
+                        name="<?php echo esc_attr( $option_name . '['. $args['post_type_name'] .']['. $field .']' ); ?>"
+                        
+                        <?php echo isset( $options[ $args['post_type_name'] ][ $field ]) ? checked( $options[ $args['post_type_name'] ][ $field ], 'on', false ) : ''; ?>
+                    />
+                    <label for="<?php echo esc_attr($id); ?>">
+                        <?php echo esc_html( $params['label'] ) ;?>
+                    </label>
+                </div>
+            <?php
         }
+        
     }
     /**
      * Add admin menu page
@@ -149,9 +219,9 @@ class Admin {
 
         <form method="post" action="options.php">
             <?php
-             settings_fields( $this->plugin->settings->option_name ); 
+             settings_fields( $this->plugin->settings->settings_name ); 
              
-             do_settings_sections( $this->plugin->settings->option_name );
+             do_settings_sections( $this->plugin->settings->settings_name );
 
              submit_button(__( 'Save settings', 'aera' )); ?>
         </form>
