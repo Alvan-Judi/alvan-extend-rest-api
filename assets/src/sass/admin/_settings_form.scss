@@ -1,0 +1,94 @@
+#aera-settings-form {
+    margin-top: 50px;
+
+    > h2 {
+    }
+
+    .form-table {
+        tbody {
+            tr {
+                display: block;
+
+                th {
+                    color: $aera-main-color;
+                }
+
+                th, td {
+                    width: 100%;
+                    display: block;
+                    padding: 8px 0;
+                }
+            }
+        }
+    }
+
+    .input-wrap {
+        margin-bottom: 8px;
+    }
+
+    input[type=checkbox]{
+        height: 0;
+        width: 0;
+        visibility: hidden;
+        position: absolute;
+        left: -9999px;
+
+        & + label {
+            display: block;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            &::before {
+                content: '';
+                width: 50px;
+                height: 24px;
+                background: grey;
+                display: inline-block;
+                margin-right: 15px;
+                border-radius: 15px;
+                position: relative;
+                top: 0;
+                left: 0;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 4px;
+                left: 4px;
+                width: 16px;
+                height: 16px;
+                background: $aera-white;
+                border-radius: 35px;
+                transition: 0.3s;
+            }
+
+            &:active:after {
+                width: 25px;
+            }
+        }
+
+        &:checked + label {
+            &::before {
+                background: $aera-main-color;
+            }
+
+            &:after {
+                left: 30px;
+            }
+        }
+    }
+
+    input[type="submit"] {
+        background-color: $aera-main-color;
+        font-family: $aera-main-font;
+        text-transform: uppercase;
+        border: none;
+        transition: .2s;
+        &:hover {
+            background-color: lighten($aera-main-color, 8%);
+        }
+    }
+}

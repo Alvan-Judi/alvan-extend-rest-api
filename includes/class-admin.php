@@ -204,19 +204,19 @@ class Admin {
      * @return void
      */
     public function plugin_admin_page() {
-        echo '<div class="wrap">';
-        echo '<h1>Extend REST API</h1>';
-
+       
         ?>
+        <div class="wrap" id="aera-settings">
+            <h1 id="aera-main-title"><?php _e( 'Extend REST API', 'aera' ); ?></h1>
 
-        <form method="post" action="options.php">
-            <?php
-             settings_fields( $this->plugin->settings->settings_name ); 
-             
-             do_settings_sections( $this->plugin->settings->settings_name );
+            <form id="aera-settings-form" class="aera-settings-form" method="post" action="options.php">
+                <?php
+                settings_fields( $this->plugin->settings->settings_name ); 
+                
+                do_settings_sections( $this->plugin->settings->settings_name );
 
-             submit_button(__( 'Save settings', 'aera' )); ?>
-        </form>
+                submit_button( __( 'Save settings', 'aera' ) ); ?>
+            </form>
         </div>
 
         <?php

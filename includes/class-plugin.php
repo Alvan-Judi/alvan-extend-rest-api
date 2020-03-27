@@ -8,6 +8,8 @@
 
 namespace AERA;
 
+use Exception;
+
 final class Plugin {
 
     /**
@@ -36,7 +38,7 @@ final class Plugin {
      * @var string
      * @since 1.0.0
      */
-    protected $assets_path = '';
+    protected $assets_url = '';
 
     /**
 	 * Plugin basename.
@@ -71,6 +73,14 @@ final class Plugin {
     protected $admin;
 
     /**
+     * Enqueues
+     * 
+     * @var Enqueue
+     * @since 1.0.0
+     */
+    protected $enqueue;
+
+    /**
      * Settings
      * 
      * @var REST_API
@@ -101,7 +111,7 @@ final class Plugin {
 		$this->basename = plugin_basename( dirname( __FILE__ ) );
 		$this->url      = plugin_dir_url( dirname( __FILE__ ) );
         $this->path     = plugin_dir_path( dirname( __FILE__ ) );
-        $this->assets_path = $this->path . '/assets/dist';
+        $this->assets_url = $this->url . 'assets/dist';
         
         $this->settings = new Settings( $this );
     }
@@ -132,6 +142,7 @@ final class Plugin {
      */
     public function plugin_classes() {
         $this->admin = new Admin( $this );
+        $this->enqueue = new Enqueue( $this );
         $this->rest_api = new REST_API( $this );
     }
 
@@ -165,6 +176,7 @@ final class Plugin {
 			case 'basename':
 			case 'url':
 			case 'path':
+            case 'assets_url':
 			case 'settings':
 				return $this->$field;
 			default:

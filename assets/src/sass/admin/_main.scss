@@ -1,0 +1,24 @@
+#wpcontent {
+    padding-left: 0;
+}
+
+// Plugin main container
+#aera-settings {
+    background: $aera-white;
+    padding: 20px;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: $aera-main-font;
+
+    *, *::before, *::after {
+        box-sizing: inherit;
+    }
+}
+
+// Plugin main title
+#aera-main-title {
+    color: $aera-main-color;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
