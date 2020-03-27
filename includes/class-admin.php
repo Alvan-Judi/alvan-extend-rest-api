@@ -24,7 +24,6 @@ class Admin {
 	 */
 	protected $plugin = null;
 
-
 	/**
 	 * Constructor.
 	 *
@@ -37,7 +36,6 @@ class Admin {
 		$this->plugin = $plugin;
 		$this->hooks();
     }
-    
 
     /**
      * Hooks
@@ -49,7 +47,6 @@ class Admin {
         add_action( 'admin_init', array( $this, 'register_settings' ) );
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
     }
-
 
     /**
      * List post types
@@ -130,7 +127,7 @@ class Admin {
      * 
      */
     public function post_types_section_cb() {
-        echo '<p>' . __( 'Select options that you want to be avaible in the REST API for each post types', 'aera' ) . '</p>';
+        echo '<p>' . __( 'Select the additional fields you want to add to the endpoint of each public post type.', 'aera' ) . '</p>';
     }
 
     /**
@@ -139,14 +136,14 @@ class Admin {
      * @since 1.0.0
      * @return void
      */
-    public function post_type_field_cb($args) {
+    public function post_type_field_cb( $args ) {
 
         $option_name = $this->plugin->settings->posts_types_option_name;
         $options = get_option($option_name);
 
         $post_rest_api_fields = array(
             'featured_media_url' => array(
-                'label' => __( 'Thumbnail URL', 'aera' ),
+                'label' => __( 'Featured media URL', 'aera' ),
                 'support' => 'thumbnail'
             ),
             'author_name' => array(
@@ -159,33 +156,29 @@ class Admin {
              ),
         );
 
-        foreach($post_rest_api_fields as $field => $params) {
+        foreach($post_rest_api_fields as $field => $params ) {
 
             $id = $option_name . '-' . $args['post_type_name'] . '-' . $field;
 
-            if( !empty( $params['support'] ) ) {
-                
-                if( !post_type_supports( $args['post_type_name'], $params['support'] ) ) {
-                    continue;
-                }
+            if( !empty( $params['support'] ) && !post_type_supports( $args['post_type_name'], $params['support'] ) ) {
+                continue;
             }
           
             ?>
                 <div class="input-wrap">
                     <input
-                        id="<?php echo esc_attr($id); ?>"
+                        id="<?php echo esc_attr( $id ); ?>"
                         type="checkbox" 
                         name="<?php echo esc_attr( $option_name . '['. $args['post_type_name'] .']['. $field .']' ); ?>"
                         
                         <?php echo isset( $options[ $args['post_type_name'] ][ $field ]) ? checked( $options[ $args['post_type_name'] ][ $field ], 'on', false ) : ''; ?>
                     />
-                    <label for="<?php echo esc_attr($id); ?>">
+                    <label for="<?php echo esc_attr( $id ); ?>">
                         <?php echo esc_html( $params['label'] ) ;?>
                     </label>
                 </div>
             <?php
         }
-        
     }
     /**
      * Add admin menu page
@@ -204,7 +197,6 @@ class Admin {
         );
     }
 
-    
 
     /**
      * Render the menu page

@@ -15,8 +15,12 @@
  * @version 1.0.0
  */
 
- use AERA\Plugin;
+if( !defined( 'ABSPATH' ) ) {
+    exit;
+}
 
+ use AERA\Plugin;
+ 
  require_once __DIR__ . '/autoload.php';
 
 /**

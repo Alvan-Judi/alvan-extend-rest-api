@@ -24,7 +24,6 @@ class Settings {
 	 */
 	protected $plugin = null;
 
-
     /**
      * Settings name
      * 
@@ -59,7 +58,6 @@ class Settings {
 		$this->hooks();
     }
     
-
     /**
      * Hooks
      * 

@@ -32,6 +32,13 @@ final class Plugin {
     protected $path = '';
 
     /**
+     * Path of dist files
+     * @var string
+     * @since 1.0.0
+     */
+    protected $assets_path = '';
+
+    /**
 	 * Plugin basename.
 	 *
 	 * @var    string
@@ -94,6 +101,7 @@ final class Plugin {
 		$this->basename = plugin_basename( dirname( __FILE__ ) );
 		$this->url      = plugin_dir_url( dirname( __FILE__ ) );
         $this->path     = plugin_dir_path( dirname( __FILE__ ) );
+        $this->assets_path = $this->path . '/assets/dist';
         
         $this->settings = new Settings( $this );
     }
@@ -107,7 +115,6 @@ final class Plugin {
     public function hooks() {
         add_action( 'init', array( $this, 'init') );
     }
-
 
     /**
      * Init

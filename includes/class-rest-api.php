@@ -25,8 +25,6 @@ class REST_API {
 	 * @var   Plugin
 	 */
 	protected $plugin = null;
-
-
      
 	/**
 	 * Constructor.
@@ -83,7 +81,6 @@ class REST_API {
                 );
             }
         }
-       
     }
 
     /**
