@@ -34,10 +34,9 @@
         left: -9999px;
 
         & + label {
-            display: block;
             cursor: pointer;
             position: relative;
-            display: flex;
+            display: inline-flex;
             align-items: center;
 
             &::before {
@@ -51,6 +50,7 @@
                 position: relative;
                 top: 0;
                 left: 0;
+                transition: .2s;
             }
 
             &::after {

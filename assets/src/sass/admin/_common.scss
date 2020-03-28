@@ -1,6 +1,7 @@
 .aera-information {
-    background: $light-grey;
     display: inline-block;
     padding: 8px;
     margin: 10px 0 !important; // Because WordPress has a stronger property .form-table td p {[...]margin-bottom:0;}
+    border-radius: 8px;
+    background: $light-grey;
 }

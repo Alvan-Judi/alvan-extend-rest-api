@@ -95,7 +95,7 @@ class Admin {
          */
         add_settings_section(
             'aera_post_types_section',
-            __( 'Post Types', 'aera' ),
+            __( 'Post types additional data', 'aera' ),
             array( $this, 'post_types_section_cb' ),
             $this->plugin->settings->settings_name
         );
@@ -128,7 +128,7 @@ class Admin {
      * 
      */
     public function post_types_section_cb() {
-        echo '<p>' . __( 'Select the additional fields you want to add to the endpoint of each public post type.', 'aera' ) . '</p>';
+        echo '<p>' . __( 'Select the additional data you want to add to the endpoint of each public post type. Post types must also have show_in_rest set to true.', 'aera' ) . '</p>';
     }
 
     /**
