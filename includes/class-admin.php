@@ -113,6 +113,7 @@ class Admin {
                 'aera_post_types_section',
                 array(
                     'post_type_name' => $post_type->name,
+                    'rest_base' => $post_type->rest_base ? $post_type->rest_base : $post_type->name
                 )
             );
         }
@@ -156,7 +157,9 @@ class Admin {
              ),
         );
 
-        foreach($post_rest_api_fields as $field => $params ) {
+        $endpoint = get_rest_url( null, 'wp/v2/' . $args['rest_base'] );
+
+        foreach($post_rest_api_fields as $field => $params ) :
 
             $id = $option_name . '-' . $args['post_type_name'] . '-' . $field;
 
@@ -177,8 +180,11 @@ class Admin {
                         <?php echo esc_html( $params['label'] ) ;?>
                     </label>
                 </div>
-            <?php
-        }
+        <?php endforeach; ?>
+            <p class="aera-information">
+                <a target="_blank" href="<?php echo $endpoint ?>"><?php echo $endpoint; ?></a>
+            </p>
+        <?php
     }
     /**
      * Add admin menu page
