@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * Plugin Name: Alvan Extend REST API 
+ * Plugin Name: Alvan Extend REST API
  * Plugin URI: https://github.com/Alvan-Judi/alvan-extend-rest-api
  * Description: A plugin example on how to add more datas to the post endpoint of the REST API
  * Version: 1.0.0
