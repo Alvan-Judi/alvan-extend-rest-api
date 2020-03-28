@@ -148,6 +148,9 @@ final class Plugin {
 
     /**
      * Plugin activate hook
+     * 
+     * @since 1.0.0
+     * @return void
      */
     public function plugin_activate() {
         register_uninstall_hook( __FILE__, 'plugin_uninstall');
@@ -155,10 +158,12 @@ final class Plugin {
 
     /**
      * Plugin uninstall hook
+     * 
+     * @since 1.0.0
+     * @return void
      */
-    static public function plugin_uninstall() {
-        //TODO: Uninstall
-
+    public function plugin_uninstall() {
+        delete_option($this->settings->posts_types_option_name);
     }
 
     /**

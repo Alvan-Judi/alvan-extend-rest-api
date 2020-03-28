@@ -36,7 +36,6 @@ function aera_plugin() {
 // Launch
 add_action( 'plugins_loaded', array( aera_plugin(), 'hooks' ) );
 
-// Uninstal hook
+// Activate hook
 register_activation_hook( __FILE__, array( aera_plugin() , 'plugin_activate' ) );
-register_deactivation_hook( __FILE__, array( aera_plugin(), 'plugin_uninstall' ) );
 
