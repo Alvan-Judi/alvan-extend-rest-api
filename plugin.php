@@ -8,8 +8,10 @@
  * Author: Alexis Vandepitte
  * Licence: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: aera
+ * Text Domain: alvan-extend-wp-rest-api
  * Domain Path: /languages
+ * Requires PHP: 5.6
+ * Tested up to: 5.3.2
  * 
  * @package AERA
  * @version 1.0.0
@@ -19,9 +21,12 @@ if( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
- use AERA\Plugin;
+use AERA\Plugin;
+
+// Define plugin basename file
+define('AERA_BASENAME', plugin_basename(  __FILE__ ) );
  
- require_once __DIR__ . '/autoload.php';
+require_once __DIR__ . '/autoload.php';
 
 /**
  * Init

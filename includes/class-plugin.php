@@ -108,9 +108,10 @@ final class Plugin {
 	 * @since 1.0.0
 	 */
 	protected function __construct() {
-		$this->basename = plugin_basename( dirname( __FILE__ ) );
+		$this->basename = AERA_BASENAME;
 		$this->url      = plugin_dir_url( dirname( __FILE__ ) );
         $this->path     = plugin_dir_path( dirname( __FILE__ ) );
+    
         $this->assets_url = $this->url . 'assets/dist';
         
         $this->settings = new Settings( $this );
@@ -128,10 +129,25 @@ final class Plugin {
 
     /**
      * Init
+     * 
+     * @since 1.0.0
+     * @return void
      */
     public function init() {
+        // Load the text domain
+        $this->load_textdomain();
         // Initialize plugin classes.
-		$this->plugin_classes();
+        $this->plugin_classes();
+    }
+
+    /**
+     * Load text domain
+     * 
+     * @since 1.0.0
+     * @return void
+     */
+    function load_textdomain() {
+        load_plugin_textdomain( 'alvan-extend-wp-rest-api', false, dirname( $this->basename ) . '/languages' ); 
     }
 
     /**

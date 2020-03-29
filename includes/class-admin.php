@@ -44,8 +44,37 @@ class Admin {
      * @return void
      */
     public function hooks() {
+        add_filter( 'plugin_action_links_' . $this->plugin->basename, array( $this, 'plugin_settings_page_link' ) );
         add_action( 'admin_init', array( $this, 'register_settings' ) );
         add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+    }
+
+    /**
+     * Add link to our settings page, on the plugin list page.
+     * 
+     * @since 1.0.0
+     * @return void
+     */
+    public function plugin_settings_page_link( $links ) {
+        $links[] = '<a href="'. esc_url( admin_url( 'options-general.php?page='.$this->plugin->settings->settings_name ) ) .'">'. __('Settings', 'alvan-extend-wp-rest-api') .'</a>';
+        return $links;
+    }
+
+    /**
+     * Add admin menu page
+     * 
+     * @since 1.0.0
+     * @return void
+     */
+    public function admin_menu() {
+        add_submenu_page(
+            'options-general.php',
+            __('Extend REST API', 'alvan-extend-wp-rest-api'),
+            __('Extend REST API', 'area'),
+            $this->plugin->settings->capability(),
+            $this->plugin->settings->settings_name,
+            array($this, 'plugin_admin_page')
+        );
     }
 
     /**
@@ -95,7 +124,7 @@ class Admin {
          */
         add_settings_section(
             'aera_post_types_section',
-            __( 'Post types additional data', 'aera' ),
+            __( 'Post types additional data', 'alvan-extend-wp-rest-api' ),
             array( $this, 'post_types_section_cb' ),
             $this->plugin->settings->settings_name
         );
@@ -128,7 +157,7 @@ class Admin {
      * 
      */
     public function post_types_section_cb() {
-        echo '<p>' . __( 'Select the additional data you want to add to the endpoint of each public post type. Post types must also have show_in_rest set to true.', 'aera' ) . '</p>';
+        echo '<p>' . __( 'Select the additional data you want to add to the endpoint of each public post type. Post types must also have show_in_rest set to true.', 'alvan-extend-wp-rest-api' ) . '</p>';
     }
 
     /**
@@ -144,15 +173,15 @@ class Admin {
 
         $post_rest_api_fields = array(
             'featured_media_url' => array(
-                'label' => __( 'Featured media URL', 'aera' ),
+                'label' => __( 'Featured media URL', 'alvan-extend-wp-rest-api' ),
                 'support' => 'thumbnail'
             ),
             'author_name' => array(
-               'label' => __( 'Author\'s name', 'aera' ),
+               'label' => __( 'Author\'s name', 'alvan-extend-wp-rest-api' ),
                'support' => 'author'
             ),
             'avatar_url' => array(
-                'label' => __( 'Author\'s avatar URL', 'aera' ),
+                'label' => __( 'Author\'s avatar URL', 'alvan-extend-wp-rest-api' ),
                 'support' => 'author'
              ),
         );
@@ -186,24 +215,7 @@ class Admin {
             </p>
         <?php
     }
-    /**
-     * Add admin menu page
-     * 
-     * @since 1.0.0
-     * @return void
-     */
-    public function admin_menu() {
-        add_submenu_page(
-            'options-general.php',
-            __('Extend REST API', 'aera'),
-            __('Extend REST API', 'area'),
-            $this->plugin->settings->capability(),
-            $this->plugin->settings->settings_name,
-            array($this, 'plugin_admin_page')
-        );
-    }
-
-
+   
     /**
      * Render the menu page
      * @since 1.0.0
@@ -213,7 +225,7 @@ class Admin {
        
         ?>
         <div class="wrap" id="aera-settings">
-            <h1 id="aera-main-title"><?php _e( 'Extend REST API', 'aera' ); ?></h1>
+            <h1 id="aera-main-title"><?php _e( 'Extend REST API', 'alvan-extend-wp-rest-api' ); ?></h1>
 
             <form id="aera-settings-form" class="aera-settings-form" method="post" action="options.php">
                 <?php
@@ -221,7 +233,7 @@ class Admin {
                 
                 do_settings_sections( $this->plugin->settings->settings_name );
 
-                submit_button( __( 'Save settings', 'aera' ) ); ?>
+                submit_button( __( 'Save settings', 'alvan-extend-wp-rest-api' ) ); ?>
             </form>
         </div>
 
