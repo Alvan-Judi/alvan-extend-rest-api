@@ -1,4 +1,4 @@
-# Extend REST API
+# Extend REST API - Comment développer un Plugin pour WordPress
 
 ## Introduction
 
@@ -38,7 +38,10 @@ C'est exactement pareil ici, si vous foncez tête baissée, vous avez de grande 
 
 ---
 
-## La structure de base
+## La structure
 
 Maintenant qu'on a nos besoins d'écrit et qu'on a écumé la documentation de WordPress on commence à créer notre structure de base. Notre plugin sera en codé en objet et dans le respect des [codings standard de WordPress](https://make.wordpress.org/core/handbook/best-practices/coding-standards/).
 
+### La base
+
+Un plugin WordPress doit être un fichier php ou un dossier placé dans le dossier *plugins* de WordPress. 
