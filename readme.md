@@ -1,18 +1,27 @@
-# Extend REST API - Comment développer un Plugin pour WordPress
+# Extend REST API - Apprendre à développer un Plugin pour WordPress
 
 ## Introduction
 
-Ce plugin pour WordPress est un bon exemple pour apprendre à en créer un. Nous verrons comment structurer, ajouter une page de réglages, ajouter des styles dans l'administration (même si je vous conseil d'utiliser au maximum les styles de base de WordPress pour que l'utilisateur ait l'impression que votre fonctionnalité est native), créer un fichier de traduction etc. dans le but de permettre d'ajouter des données à l'API de WordPress.
+Cette idée de plugin pour WordPress est un bon exemple pour apprendre à en créer un. Vous allez découvrir une méthode de **structuration**, comment ajouter **une page de réglages**, ajouter **des styles** dans l'administration (même si je vous conseil d'utiliser au maximum les styles de base de WordPress pour que l'utilisateur ait l'impression que votre fonctionnalité est native) etc. dans le but de permettre d'ajouter des données à l'API de WordPress.
+
+Vous trouverz également dans le ce *readme* quelques informations et éléments important pour vous guider.
+
+Donc avant d'écumer le code du plugin. Il va falloir essayer de le **créer vous même** !
 
 ### Le but du plugin
 
-Le but du plugin est de permettre à l'utilisateur final, d'ajouter quelques données supplémentaires aux retours des post types de l'API. Ces données sont :
+Le but du plugin est de permettre à l'utilisateur final, d'ajouter quelques données supplémentaires aux retours des post types de l'API.
+On devra vérifier pour chaque post type si  `public` et `show_in_rest` sont à `true` 
+
+Les données additonels sont :
 
 - l'url de l'image à la une (si supporté par le type de post)
 - le nom de l'auteur
 - l'url de l'avatar de l'auteur
 
- L'utilisateur devra pouvoir le faire via une page d'aministration dédiée et lors de la suppression du plugin tous les réglages stockées du plugin devront être supprimé.
+ L'utilisateur devra pouvoir activer ces options via une page d'aministration dédiée et lors de la suppression du plugin toutes les options stockées devront être supprimé.
+
+*PS: Le plugin devra être coder en objet.*
 
 ### Nos besoins
 
@@ -22,7 +31,7 @@ Nous avons besoin de :
 
 - Créer une page d'aministration
 - Ajouter des options à cette page
-- Ajouter des styles supplémentaires
+- Ajouter des styles supplémentaires (optionnel)
 - Ajouter des données à l'API de WordPress
 - Supprimer les données lors de la désinstallation du plugin
 
@@ -34,14 +43,97 @@ Je vais conclure par une comparaison : Imaginez commencer la fabrication d'un me
 
 C'est exactement pareil ici, si vous foncez tête baissée, vous avez de grande chance de devoir tout recommencer très vite.
 
-**C'est bon pour vous ? C'est parti !**
+**C'est bon pour vous ? Lancez-vous !**
+
+---
+
+Vous bloquez ? Voici quelques éléments pour vous aider.
 
 ---
 
 ## La structure
 
-Maintenant qu'on a nos besoins d'écrit et qu'on a écumé la documentation de WordPress on commence à créer notre structure de base. Notre plugin sera en codé en objet et dans le respect des [codings standard de WordPress](https://make.wordpress.org/core/handbook/best-practices/coding-standards/).
+Il existe pléthore de possibilités pour structurer votre plugin. Il suffit de regarder le code de différent plugin pour vous rendre compte qu'aucun n'est structuré pareil. Vous devez simplement réfléchir à ce qui vous va le mieu.
 
-### La base
+Dans mon cas la structure est :
 
-Un plugin WordPress doit être un fichier php ou un dossier placé dans le dossier *plugins* de WordPress. 
+- assets
+  - dist
+    - css
+  - src
+    - css
+- includes
+- languages
+
+Le dossier **assets** contient tous les fichiers *css*, *scss*, *js* et des images par exemple.
+
+Le dossier **includes** contient tous les fichiers *php* dont nous avons besoins.
+
+Le dossier **languages** dit tout avec son nom.
+
+Si le plugin devait également modifier des choses en front end, on aurait ajouté un dossier admin dans assets et un autre dans includes pour pouvoir bien différencier les deux parties.
+
+## Les classes
+
+Si vous avez bien compris nos besoins vous aurez deviné comment organiser nos fichiers pour que tout soit clair, facilement utilisable et maintenable. (Le choix des noms est toujours matière à discussion, vous l'avez certainement compris si vous avez fouillé dans quelques plugins)
+
+- **Plugin** nous permettra d'instancier toutes les autres classes
+- **Settings** nous permettra de fournir des informations sur le plugin aux autres classes
+- **Admin** gérera l'affichage dans l'administration
+- **Enqueue** qui gérera l'inclusion de fichier css ou js
+- **REST_API** pour notre fonctionnalité principale
+
+## L'autoloading
+
+Comme on essai de respecter les [Coding Standards de WordPress](https://make.wordpress.org/core/handbook/best-practices/coding-standards/), on a besoin de faire appelle à un autoloading personnalisé grâce à la fonction `spl_autoload_register`.
+
+On passe en paramètre une fonction qu'on aura crée, qui permet d'automatiquement faire un `require_once` de nos classes php lorsqu'on en a besoin.
+
+## Singleton
+
+Pour éviter que le plugin ne soit lancé plusieurs fois, on utilise un *Singleton*
+
+```php
+class Plugin {
+
+    /**
+     * Plugin instance
+     */
+    protected static single_instance = null;
+
+    /**
+     * Creates or returns an instance of this class.
+     */
+    public static function get_instance() {
+        if ( null === self::$single_instance ) {
+            self::$single_instance = new self();
+        }
+
+        return self::$single_instance;
+    }
+}
+```
+
+On lance ensuite le plugin et les différents hook d'activation ou de désactivation.
+
+```php
+function aera_plugin() {
+    return Plugin::get_instance();
+}
+
+// Launch
+add_action( 'plugins_loaded', array( aera_plugin(), 'hooks' ) );
+
+// Activate hook
+register_activation_hook( __FILE__, array( aera_plugin() , 'plugin_activate' ) );
+```
+
+## Liste de hooks à utiliser
+
+- **init** pour instancier toutes nos classes
+- **plugin_action_links_{plugin_name}** pour ajouter un lien vers les réglages du plugin depuis la page de liste des plugins installés.
+- **admin_menu** pour ajouter notre page de réglages à l'administration
+- **admin_init** pour déclarer les options de notre plugin
+- **admin_enqueue_scripts** pour ajouter nos styles ou scripts
+- **rest_api_init** pour modifier les terminaisons de types de publication de l'API
+

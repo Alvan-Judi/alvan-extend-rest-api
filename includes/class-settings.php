@@ -54,19 +54,8 @@ class Settings {
         
         $this->settings_name = 'aera-settings';
         $this->posts_types_option_name = 'aera_options';
-
-		$this->hooks();
     }
     
-    /**
-     * Hooks
-     * 
-     * @since 1.0.0
-     */
-    public function hooks() {
-        
-    }
-
     /**
      * The capability need to administrate the plugin
      * Hookable to change the default capabilty needed
