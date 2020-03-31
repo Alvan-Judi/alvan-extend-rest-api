@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Autoloader
- * 
+ *
  * We need this autoloader to automatically include all our classes under the namspace "AERA"
  *
  * @since 1.0.0

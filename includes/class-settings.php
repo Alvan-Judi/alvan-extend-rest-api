@@ -1,7 +1,7 @@
-<?php 
-
+<?php
 /**
  * Alvan Extend REST API: Settings
+ *
  * @since 1.0.0
  * @package AERA
  */
@@ -24,23 +24,23 @@ class Settings {
 	 */
 	private $_plugin = null;
 
-    /**
-     * Settings name
-     * 
-     * @since 1.0.0
-     * 
-     * @var string
-     */
-    public $settings_name = '';
+	/**
+	 * Settings name
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	public $settings_name = '';
 
-    /**
-     * Settings name
-     * 
-     * @since 1.0.0
-     * 
-     * @var string
-     */
-    public $posts_types_option_name = '';
+	/**
+	 * Settings name
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	public $posts_types_option_name = '';
 
 	/**
 	 * Constructor.
@@ -50,18 +50,18 @@ class Settings {
 	 * @since 1.0.0
 	 */
 	public function __construct( $plugin ) {
-        $this->plugin = $plugin;
-        $this->settings_name = 'aera-settings';
-        $this->posts_types_option_name = 'aera_options';
-    }
-    
-    /**
-     * The capability need to administrate the plugin
-     * Hookable to change the default capabilty needed
-     * 
-     * @since 1.0.0
-     */
-    public function capability() {
-        return apply_filters('aera_capability', 'manage_options');
-    }
+		$this->plugin                  = $plugin;
+		$this->settings_name           = 'aera-settings';
+		$this->posts_types_option_name = 'aera_options';
+	}
+
+	/**
+	 * The capability need to administrate the plugin
+	 * Hookable to change the default capabilty needed
+	 *
+	 * @since 1.0.0
+	 */
+	public function capability() {
+		return apply_filters( 'aera_capability', 'manage_options' );
+	}
 }

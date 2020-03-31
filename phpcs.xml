@@ -8,7 +8,7 @@
 	<rule ref="WordPress-Core"/>
 	<rule ref="WordPress-Docs"/>
 	<rule ref="WordPress.WP.I18n"/>
-	<config name="text_domain" value="aera,default"/>
+	<config name="text_domain" value="alvan-extend-wp-rest-api,default"/>
 
 	<rule ref="VariableAnalysis.CodeAnalysis.VariableAnalysis">
 		<properties>
@@ -28,8 +28,7 @@
 
 	<file>./includes</file>
 	<file>./autoload.php</file>
-	<file>./plugin.php</file>
-	<!-- <file>./phpunit</file> -->
+	<file>./alvan-extend-wp-rest-api.php</file>
 
 	<!-- Do not require docblocks for unit tests -->
 	<rule ref="Squiz.Commenting.FunctionComment.Missing">

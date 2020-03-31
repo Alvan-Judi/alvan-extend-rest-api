@@ -1,7 +1,7 @@
-<?php 
-
+<?php
 /**
  * Alvan Extend REST API: Main class.
+ *
  * @since 1.0.0
  * @package AERA
  */
@@ -10,85 +10,94 @@ namespace AERA;
 
 use Exception;
 
+/**
+ * Alvan Extend REST API: Plugin
+ *
+ * @since 1.0.0
+ */
 final class Plugin {
 
-    /**
-     * Version
-     * @var string
-     * @since 1.0.0
-     */
-    const VERSION = '1.0.0';
+	/**
+	 * Version
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	const VERSION = '1.0.0';
 
-    /**
-     * Path of the plugin
-     * @var string
-     * @since 1.0.0
-     */
-    private $_url = '';
+	/**
+	 * Path of the plugin
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	private $_url = '';
 
-    /**
-     * Path of the plugin
-     * @var string
-     * @since 1.0.0
-     */
-    private $_path = '';
+	/**
+	 * Path of the plugin
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	private $_path = '';
 
-    /**
-     * Path of dist files
-     * @var string
-     * @since 1.0.0
-     */
-    private $_assets_url = '';
+	/**
+	 * Path of dist files
+	 *
+	 * @var string
+	 * @since 1.0.0
+	 */
+	private $_assets_url = '';
 
-    /**
+	/**
 	 * Plugin basename.
 	 *
 	 * @var    string
 	 * @since 1.0.0
 	 */
-    private $_basename = '';
-    
-    /**
+	private $_basename = '';
+
+	/**
 	 * Singleton instance of plugin.
 	 *
 	 * @var    Plugin
 	 * @since 1.0.0
 	 */
-    protected static $single_instance = null;
+	protected static $single_instance = null;
 
-    /**
-     * Settings
-     * 
-     * @var Settings
-     * @since 1.0.0
-     */
-    private $_settings;
+	/**
+	 * Settings
+	 *
+	 * @var Settings
+	 * @since 1.0.0
+	 */
+	private $_settings;
 
-    /**
-     * Settings
-     * 
-     * @var Admin
-     * @since 1.0.0
-     */
-    private $_admin;
+	/**
+	 * Settings
+	 *
+	 * @var Admin
+	 * @since 1.0.0
+	 */
+	private $_admin;
 
-    /**
-     * Enqueues
-     * 
-     * @var Enqueue
-     * @since 1.0.0
-     */
-    private $_enqueue;
+	/**
+	 * Enqueues
+	 *
+	 * @var Enqueue
+	 * @since 1.0.0
+	 */
+	private $_enqueue;
 
-    /**
-     * Settings
-     * 
-     * @var REST_API
-     * @since 1.0.0
-     */
-    private $_rest_api;
-    
-    /**
+	/**
+	 * Settings
+	 *
+	 * @var REST_API
+	 * @since 1.0.0
+	 */
+	private $_rest_api;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since 1.0.0
@@ -108,73 +117,73 @@ final class Plugin {
 	 * @since 1.0.0
 	 */
 	protected function __construct() {
-		$this->basename = AERA_BASENAME;
-		$this->url      = plugin_dir_url( dirname( __FILE__ ) );
-        $this->path     = plugin_dir_path( dirname( __FILE__ ) );
-        $this->assets_url = $this->url . 'assets/dist';
-        $this->_settings= new Settings( $this );
-    }
-    
-    /**
-     * Initial Hooks
-     * 
-     * @since 1.0.0
-     */
-    public function hooks() {
-        add_action( 'init', array( $this, 'init') );
-    }
+		$this->basename   = AERA_BASENAME;
+		$this->url        = plugin_dir_url( dirname( __FILE__ ) );
+		$this->path       = plugin_dir_path( dirname( __FILE__ ) );
+		$this->assets_url = $this->url . 'assets/dist';
+		$this->_settings  = new Settings( $this );
+	}
 
-    /**
-     * Init
-     * 
-     * @since 1.0.0
-     */
-    public function init() {
-        // Load the text domain
-        $this->load_textdomain();
-        // Initialize plugin classes.
-        $this->plugin_classes();
-    }
+	/**
+	 * Initial Hooks
+	 *
+	 * @since 1.0.0
+	 */
+	public function hooks() {
+		add_action( 'init', array( $this, 'init' ) );
+	}
 
-    /**
-     * Load text domain
-     * 
-     * @since 1.0.0
-     */
-    function load_textdomain() {
-        load_plugin_textdomain( 'alvan-extend-wp-rest-api', false, dirname( $this->basename ) . '/languages' ); 
-    }
+	/**
+	 * Init
+	 *
+	 * @since 1.0.0
+	 */
+	public function init() {
+		// Load the text domain.
+		$this->load_textdomain();
+		// Initialize plugin classes.
+		$this->plugin_classes();
+	}
 
-    /**
-     * Load classes
-     * 
-     * @since 1.0.0
-     */
-    public function plugin_classes() {
-        $this->admin = new Admin( $this );
-        $this->enqueue = new Enqueue( $this );
-        $this->rest_api = new REST_API( $this );
-    }
+	/**
+	 * Load text domain
+	 *
+	 * @since 1.0.0
+	 */
+	function load_textdomain() {
+		load_plugin_textdomain( 'alvan-extend-wp-rest-api', false, dirname( $this->basename ) . '/languages' );
+	}
 
-    /**
-     * Plugin activate hook
-     * 
-     * @since 1.0.0
-     */
-    public function plugin_activate() {
-        register_uninstall_hook( __FILE__, 'plugin_uninstall');
-    }
+	/**
+	 * Load classes
+	 *
+	 * @since 1.0.0
+	 */
+	public function plugin_classes() {
+		$this->admin    = new Admin( $this );
+		$this->enqueue  = new Enqueue( $this );
+		$this->rest_api = new REST_API( $this );
+	}
 
-    /**
-     * Plugin uninstall hook
-     * 
-     * @since 1.0.0
-     */
-    public function plugin_uninstall() {
-        delete_option($this->_settings->posts_types_option_name);
-    }
+	/**
+	 * Plugin activate hook
+	 *
+	 * @since 1.0.0
+	 */
+	public function plugin_activate() {
+		register_uninstall_hook( __FILE__, 'plugin_uninstall' );
+	}
 
-    /**
+	/**
+	 * Plugin uninstall hook
+	 *
+	 * @since 1.0.0
+	 */
+	public function plugin_uninstall() {
+		delete_option( $this->_settings->posts_types_option_name );
+	}
+
+	/**
 	 * Magic getter for our object.
 	 *
 	 * @since 1.0.0
@@ -189,7 +198,7 @@ final class Plugin {
 			case 'basename':
 			case 'url':
 			case 'path':
-            case 'assets_url':
+			case 'assets_url':
 			case '_settings':
 				return $this->$field;
 			default:

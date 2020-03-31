@@ -1,4 +1,4 @@
-# Extend REST API - Apprendre à développer un Plugin pour WordPress
+# Extend WP REST API - Apprendre à développer un Plugin pour WordPress
 
 ## Introduction
 
@@ -174,7 +174,7 @@ voir : [__()](https://developer.wordpress.org/reference/functions/__/), [_e()](h
 ex:
 
 ```php
-_x('Avocat', 'fruit', 'text-domain');
+_x( 'Avocat', 'fruit', 'alvan-extend-wp-rest-api' );
 ```
 
 ---
@@ -189,3 +189,12 @@ wp i18n make-pot . languages/alvan-extend-wp-rest-api.pot
 
 Le fichier généré pourra être utilisé par [poedit](https://poedit.net) ou des plugins WordPress comme [Loco Translate](https://fr.wordpress.org/plugins/loco-translate/) pour créer les traductions de langues de votre choix.
 
+## PHP_CodeSniffer, WordPress Coding Standards et compagnie
+
+Pour s'assurer que notre code soit uniforme et respecte les standards de WordPress et PHP on peut installer via composer différents composants. J'ai ici utilisé :
+
+- [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) permet de détecter les violations aux standards de code PHP
+- [WordPress Coding Standards](https://github.com/WordPress/WordPress-Coding-Standards) le même principe mais pour WordPress
+- [PHP_CodeSniffer VariableAnalysis](https://github.com/sirbrillig/phpcs-variable-analysis) permet de vérifier que nos variables sont bien utilisés et crées
+- [PHP Compatibility Coding Standards for PHP CodeSniffer](https://github.com/PHPCompatibility/PHPCompatibility) permet de tester la compatibilité des versions PHP avec notre code
+- [PHP_CodeSniffer Standards Composer Installer Plugin](https://github.com/Dealerdirect/phpcodesniffer-composer-installer) permet de charger tout ce petit monde automatiquement pour nous
