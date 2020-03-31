@@ -111,9 +111,7 @@ final class Plugin {
 		$this->basename = AERA_BASENAME;
 		$this->url      = plugin_dir_url( dirname( __FILE__ ) );
         $this->path     = plugin_dir_path( dirname( __FILE__ ) );
-    
         $this->assets_url = $this->url . 'assets/dist';
-        
         $this->_settings= new Settings( $this );
     }
     
@@ -121,7 +119,6 @@ final class Plugin {
      * Initial Hooks
      * 
      * @since 1.0.0
-     * @return void
      */
     public function hooks() {
         add_action( 'init', array( $this, 'init') );
@@ -131,7 +128,6 @@ final class Plugin {
      * Init
      * 
      * @since 1.0.0
-     * @return void
      */
     public function init() {
         // Load the text domain
@@ -144,7 +140,6 @@ final class Plugin {
      * Load text domain
      * 
      * @since 1.0.0
-     * @return void
      */
     function load_textdomain() {
         load_plugin_textdomain( 'alvan-extend-wp-rest-api', false, dirname( $this->basename ) . '/languages' ); 
@@ -154,7 +149,6 @@ final class Plugin {
      * Load classes
      * 
      * @since 1.0.0
-     * @return void
      */
     public function plugin_classes() {
         $this->admin = new Admin( $this );
@@ -166,7 +160,6 @@ final class Plugin {
      * Plugin activate hook
      * 
      * @since 1.0.0
-     * @return void
      */
     public function plugin_activate() {
         register_uninstall_hook( __FILE__, 'plugin_uninstall');
@@ -176,7 +169,6 @@ final class Plugin {
      * Plugin uninstall hook
      * 
      * @since 1.0.0
-     * @return void
      */
     public function plugin_uninstall() {
         delete_option($this->_settings->posts_types_option_name);

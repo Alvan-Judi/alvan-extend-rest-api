@@ -30,7 +30,6 @@ class Enqueue {
 	 * @since 1.0.0
 	 *
 	 * @param Plugin $plugin Main plugin object.
-     * @return void
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -41,7 +40,6 @@ class Enqueue {
      * Hooks.
      * 
      * @since 1.0.0
-     * @return void
      */
     public function hooks() {
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
@@ -51,10 +49,9 @@ class Enqueue {
      * Enqueue styles.
      * 
      * @since 1.0.0
-     * @return void
      */
     public function enqueue_styles($hook_suffix) {
-
+        // Check if we are on our settings page
         if( $hook_suffix === 'settings_page_'.$this->plugin->_settings->settings_name ) {
             wp_enqueue_style( 'aera_main_font', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700&display=swap');
             wp_enqueue_style( 'aera_admin_styles', $this->plugin->assets_url . '/css/admin.css', false, $this->plugin->version );
