@@ -4,7 +4,7 @@
 
 Cette idée de plugin pour WordPress est un bon exemple pour apprendre à en créer un. Vous allez découvrir une méthode de **structuration**, comment ajouter **une page de réglages**, ajouter **des styles** dans l'administration (même si je vous conseil d'utiliser au maximum les styles de base de WordPress pour que l'utilisateur ait l'impression que votre fonctionnalité est native) etc. dans le but de permettre d'ajouter des données à l'API de WordPress.
 
-Vous trouverz également dans le ce *readme* quelques informations et éléments important pour vous guider.
+Vous trouverez également dans le ce *readme* quelques informations et éléments important pour vous guider.
 
 Donc avant d'écumer le code du plugin. Il va falloir essayer de le **créer vous même** !
 
