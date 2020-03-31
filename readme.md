@@ -191,10 +191,71 @@ Le fichier généré pourra être utilisé par [poedit](https://poedit.net) ou d
 
 ## PHP_CodeSniffer, WordPress Coding Standards et compagnie
 
-Pour s'assurer que notre code soit uniforme et respecte les standards de WordPress et PHP on peut installer via composer différents composants. J'ai ici utilisé :
+Pour s'assurer que notre code soit uniforme et qu'il respecte les standards de WordPress et PHP on peut installer via composer différents composants. J'ai ici utilisé :
 
 - [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) permet de détecter les violations aux standards de code PHP
 - [WordPress Coding Standards](https://github.com/WordPress/WordPress-Coding-Standards) le même principe mais pour WordPress
 - [PHP_CodeSniffer VariableAnalysis](https://github.com/sirbrillig/phpcs-variable-analysis) permet de vérifier que nos variables sont bien utilisés et crées
 - [PHP Compatibility Coding Standards for PHP CodeSniffer](https://github.com/PHPCompatibility/PHPCompatibility) permet de tester la compatibilité des versions PHP avec notre code
 - [PHP_CodeSniffer Standards Composer Installer Plugin](https://github.com/Dealerdirect/phpcodesniffer-composer-installer) permet de charger tout ce petit monde automatiquement pour nous
+
+Vous pouvez réutiliser le **composer.json** de ce plugin dans votre projet et via votre terminal exécuter la commande :
+
+`composer install`
+
+Pendant l'installation, récupérez également le fichier phpcs.xml et modifiez les valeurs pour correspondre à votre projet.
+Notamment:
+
+```xml
+<ruleset name="WordPress Coding Standards for Alvan Extend REST API plugin">
+[...]
+<config name="text_domain" value="alvan-extend-wp-rest-api,default"/>
+[...]
+<file>./includes</file>
+<file>./autoload.php</file>
+<file>./alvan-extend-wp-rest-api.php</file>
+```
+
+Vous pourrez ensuite lancer la commande suivante :
+
+```bash
+# Chemin vers l'exécutable phpcs | chemin vers votre fichier de configuration
+./vendor/bin/phpcs --standard=phpcs.xml
+```
+
+Vous aurez ensuite un retour d'erreurs (ou pas, mais j'en doute) pour chacun de vos fichiers. Quelque chose comme ça :
+
+```bash
+FILE: /XXX/alvan-extend-wp-rest-api/includes/class-rest-api.php
+------------------------------------------------------------------------------------------------------------------------------------
+FOUND 0 ERRORS AND 3 WARNINGS AFFECTING 3 LINES
+------------------------------------------------------------------------------------------------------------------------------------
+  91 | WARNING | [x] Please spell "WordPress" correctly. Found 1 misspelling(s): Wordpress
+     |         |     (WordPress.WP.CapitalPDangit.Misspelled)
+ 102 | WARNING | [x] Please spell "WordPress" correctly. Found 1 misspelling(s): Wordpress
+     |         |     (WordPress.WP.CapitalPDangit.Misspelled)
+ 113 | WARNING | [x] Please spell "WordPress" correctly. Found 1 misspelling(s): Wordpress
+     |         |     (WordPress.WP.CapitalPDangit.Misspelled)
+------------------------------------------------------------------------------------------------------------------------------------
+PHPCBF CAN FIX THE 3 MARKED SNIFF VIOLATIONS AUTOMATICALLY
+------------------------------------------------------------------------------------------------------------------------------------
+```
+
+On vous indique que PHPCBF peut corriger des erreurs automatiquement, il vous suffit donc d'utiliser la commande suivante:
+
+`./vendor/bin/phpcbf --standard=phpcs.xml`
+
+qui fera la même chose que la commande précédente mais en corrigeant les erreurs en même temps. Plutôt bien non ? :)
+
+Il en restera évidemment certaines à corriger à la main, et peut être certaines à laisser. Dans mon cas j'ai volontairement décider de ne pas prendre ne compte ses remarques pour les fichiers index.php qui sont simplement la pour une question de sécurité : éviter que quelqu'un puisse lister le contenu de vos dossiers si la configuration de votre serveur ne l'empêche pas.
+
+Voilà ! Je crois que vous êtes maintenant prêt à développer vos propres plugin toujours avec le même procédé:
+
+- Définition des besoins
+- Estimation de vos connaissances PHP ou WordPress concernant ces besoins
+- Fouille dans la documentation et test de vos découvertes
+- Structuration de votre plugin
+- Vérification de votre code avec des outils comme PHPCS
+- Internationalisation de votre plugin (oui je vous l'ai mis avant PHPCS dans ce document, mais PHPCS peut vous faire des retours sur des mauvais *text domain* si vous avez fait des erreurs de frappe, donc faites le avant)
+
+A bientôt.
