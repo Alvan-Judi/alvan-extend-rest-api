@@ -71,7 +71,7 @@ Le dossier **includes** contient tous les fichiers *php* dont nous avons besoins
 
 Le dossier **languages** dit tout avec son nom.
 
-Si le plugin devait également modifier des choses en front end, on aurait ajouté un dossier admin dans assets et un autre dans includes pour pouvoir bien différencier les deux parties.
+Si le plugin devait également modifier des choses en front end, on aurait ajouté un dossier admin et front dans assets et un autre dans includes pour pouvoir bien différencier les deux parties.
 
 ## Les classes
 
