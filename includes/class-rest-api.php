@@ -24,7 +24,7 @@ class REST_API {
 	 *
 	 * @var   Plugin
 	 */
-	protected $plugin = null;
+	private $_plugin = null;
      
 	/**
 	 * Constructor.
@@ -60,7 +60,7 @@ class REST_API {
        /**
         * Get the post types additional fields
         */
-        $post_types_fields = get_option($this->plugin->settings->posts_types_option_name);
+        $post_types_fields = get_option($this->plugin->_settings->posts_types_option_name);
 
         foreach($post_types_fields as $post_type => $fields) {
             foreach($fields as $field => $value) {

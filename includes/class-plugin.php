@@ -24,21 +24,21 @@ final class Plugin {
      * @var string
      * @since 1.0.0
      */
-    protected $url = '';
+    private $_url = '';
 
     /**
      * Path of the plugin
      * @var string
      * @since 1.0.0
      */
-    protected $path = '';
+    private $_path = '';
 
     /**
      * Path of dist files
      * @var string
      * @since 1.0.0
      */
-    protected $assets_url = '';
+    private $_assets_url = '';
 
     /**
 	 * Plugin basename.
@@ -46,7 +46,7 @@ final class Plugin {
 	 * @var    string
 	 * @since 1.0.0
 	 */
-    protected $basename = '';
+    private $_basename = '';
     
     /**
 	 * Singleton instance of plugin.
@@ -62,7 +62,7 @@ final class Plugin {
      * @var Settings
      * @since 1.0.0
      */
-    protected $settings;
+    private $_settings;
 
     /**
      * Settings
@@ -70,7 +70,7 @@ final class Plugin {
      * @var Admin
      * @since 1.0.0
      */
-    protected $admin;
+    private $_admin;
 
     /**
      * Enqueues
@@ -78,7 +78,7 @@ final class Plugin {
      * @var Enqueue
      * @since 1.0.0
      */
-    protected $enqueue;
+    private $_enqueue;
 
     /**
      * Settings
@@ -86,7 +86,7 @@ final class Plugin {
      * @var REST_API
      * @since 1.0.0
      */
-    protected $rest_api;
+    private $_rest_api;
     
     /**
 	 * Creates or returns an instance of this class.
@@ -114,7 +114,7 @@ final class Plugin {
     
         $this->assets_url = $this->url . 'assets/dist';
         
-        $this->settings = new Settings( $this );
+        $this->_settings= new Settings( $this );
     }
     
     /**
@@ -179,7 +179,7 @@ final class Plugin {
      * @return void
      */
     public function plugin_uninstall() {
-        delete_option($this->settings->posts_types_option_name);
+        delete_option($this->_settings->posts_types_option_name);
     }
 
     /**
@@ -198,7 +198,7 @@ final class Plugin {
 			case 'url':
 			case 'path':
             case 'assets_url':
-			case 'settings':
+			case '_settings':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );

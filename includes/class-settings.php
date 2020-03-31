@@ -22,7 +22,7 @@ class Settings {
 	 *
 	 * @var   Plugin
 	 */
-	protected $plugin = null;
+	private $_plugin = null;
 
     /**
      * Settings name

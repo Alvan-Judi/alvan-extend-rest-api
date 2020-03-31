@@ -22,7 +22,7 @@ class Enqueue {
 	 *
 	 * @var   Plugin
 	 */
-	protected $plugin = null;
+	private $_plugin = null;
 
 	/**
 	 * Constructor.
@@ -55,7 +55,7 @@ class Enqueue {
      */
     public function enqueue_styles($hook_suffix) {
 
-        if( $hook_suffix === 'settings_page_'.$this->plugin->settings->settings_name ) {
+        if( $hook_suffix === 'settings_page_'.$this->plugin->_settings->settings_name ) {
             wp_enqueue_style( 'aera_main_font', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700&display=swap');
             wp_enqueue_style( 'aera_admin_styles', $this->plugin->assets_url . '/css/admin.css', false, $this->plugin->version );
         }

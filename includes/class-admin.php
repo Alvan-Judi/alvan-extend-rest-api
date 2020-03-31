@@ -22,7 +22,7 @@ class Admin {
 	 *
 	 * @var   Plugin
 	 */
-	protected $plugin = null;
+	private $_plugin = null;
 
 	/**
 	 * Constructor.
@@ -56,7 +56,7 @@ class Admin {
      * @return void
      */
     public function plugin_settings_page_link( $links ) {
-        $links[] = '<a href="'. esc_url( admin_url( 'options-general.php?page='.$this->plugin->settings->settings_name ) ) .'">'. __('Settings', 'alvan-extend-wp-rest-api') .'</a>';
+        $links[] = '<a href="'. esc_url( admin_url( 'options-general.php?page='.$this->plugin->_settings->settings_name ) ) .'">'. __('Settings', 'alvan-extend-wp-rest-api') .'</a>';
         return $links;
     }
 
@@ -71,8 +71,8 @@ class Admin {
             'options-general.php',
             __('Extend REST API', 'alvan-extend-wp-rest-api'),
             __('Extend REST API', 'area'),
-            $this->plugin->settings->capability(),
-            $this->plugin->settings->settings_name,
+            $this->plugin->_settings->capability(),
+            $this->plugin->_settings->settings_name,
             array($this, 'plugin_admin_page')
         );
     }
@@ -113,8 +113,8 @@ class Admin {
          * When our settings form is submited, WordPress serialized all the settings in the option.
          */
         register_setting( 
-            $this->plugin->settings->settings_name, 
-            $this->plugin->settings->posts_types_option_name
+            $this->plugin->_settings->settings_name, 
+            $this->plugin->_settings->posts_types_option_name
         );
 
         /**
@@ -126,7 +126,7 @@ class Admin {
             'aera_post_types_section',
             __( 'Post types additional data', 'alvan-extend-wp-rest-api' ),
             array( $this, 'post_types_section_cb' ),
-            $this->plugin->settings->settings_name
+            $this->plugin->_settings->settings_name
         );
 
         // Get all the post types
@@ -138,7 +138,7 @@ class Admin {
                 'aera_post_type_' . $post_type->name,
                 $post_type->label,
                 array( $this, 'post_type_field_cb' ),
-                $this->plugin->settings->settings_name,
+                $this->plugin->_settings->settings_name,
                 'aera_post_types_section',
                 array(
                     'post_type_name' => $post_type->name,
@@ -168,7 +168,7 @@ class Admin {
      */
     public function post_type_field_cb( $args ) {
 
-        $option_name = $this->plugin->settings->posts_types_option_name;
+        $option_name = $this->plugin->_settings->posts_types_option_name;
         $options = get_option($option_name);
 
         $post_rest_api_fields = array(
@@ -178,11 +178,9 @@ class Admin {
             ),
             'author_name' => array(
                'label' => __( 'Author\'s name', 'alvan-extend-wp-rest-api' ),
-               'support' => 'author'
             ),
             'avatar_url' => array(
                 'label' => __( 'Author\'s avatar URL', 'alvan-extend-wp-rest-api' ),
-                'support' => 'author'
              ),
         );
 
@@ -229,9 +227,9 @@ class Admin {
 
             <form id="aera-settings-form" class="aera-settings-form" method="post" action="options.php">
                 <?php
-                settings_fields( $this->plugin->settings->settings_name ); 
+                settings_fields( $this->plugin->_settings->settings_name ); 
                 
-                do_settings_sections( $this->plugin->settings->settings_name );
+                do_settings_sections( $this->plugin->_settings->settings_name );
 
                 submit_button( __( 'Save settings', 'alvan-extend-wp-rest-api' ) ); ?>
             </form>

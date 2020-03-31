@@ -8,8 +8,9 @@
  * Author: Alexis Vandepitte
  * Licence: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: alvan-extend-wp-rest-api
+ * Text-domain: alvan-extend-wp-rest-api
  * Domain Path: /languages
+ * Requires at least: 5.2
  * Requires PHP: 5.6
  * Tested up to: 5.3.2
  * 

@@ -4,16 +4,16 @@
 
 Cette idée de plugin pour WordPress est un bon exemple pour apprendre à en créer un. Vous allez découvrir une méthode de **structuration**, comment ajouter **une page de réglages**, ajouter **des styles** dans l'administration (même si je vous conseil d'utiliser au maximum les styles de base de WordPress pour que l'utilisateur ait l'impression que votre fonctionnalité est native) etc. dans le but de permettre d'ajouter des données à l'API de WordPress.
 
-Vous trouverez également dans le ce *readme* quelques informations et éléments important pour vous guider.
+Vous trouverez également dans ce *readme* quelques informations et éléments importants pour vous guider.
 
-Donc avant d'écumer le code du plugin. Il va falloir essayer de le **créer vous même** !
+Donc avant d'écumer le code du plugin, il va falloir essayer de le **créer vous même** !
 
 ### Le but du plugin
 
-Le but du plugin est de permettre à l'utilisateur final, d'ajouter quelques données supplémentaires aux retours des post types de l'API.
+Le but du plugin est de permettre à l'utilisateur final, d'ajouter quelques données supplémentaires aux retours des types de publication de l'API.
 On devra vérifier pour chaque post type si  `public` et `show_in_rest` sont à `true` 
 
-Les données additonels sont :
+Les données additonnelles sont :
 
 - l'url de l'image à la une (si supporté par le type de post)
 - le nom de l'auteur
@@ -25,7 +25,7 @@ Les données additonels sont :
 
 ### Nos besoins
 
-Avant de commencer à coder quoi que ce soit, il faut se poser quelques instants et réfléchir à quelle sont nos besoins.
+Avant de commencer à coder quoi que ce soit, il faut se poser quelques instants et réfléchir à quels sont nos besoins.
 
 Nous avons besoin de :
 
@@ -37,7 +37,7 @@ Nous avons besoin de :
 
 Il est important de prendre ce temps la a définir nos besoins pour avoir une vision globale de notre projet avant même de le commencer.
 
-Deuxième chose importante, si vous ne savez pas comment coder les besoins que vous avez listé, il peut être judicieux d'aller à la pêche à l'information dans [la documentation de WordPress](https://codex.wordpress.org/).
+Deuxième chose importante, si vous ne savez pas comment coder les besoins que vous avez listés, il peut être judicieux d'aller à la pêche à l'information dans [la documentation de WordPress](https://codex.wordpress.org/).
 
 Je vais conclure par une comparaison : Imaginez commencer la fabrication d'un meuble sans savoir quels outils utilisés ni avoir de plans. Au bout de la troisème planche vissé laborieusement, vous allez vous rendre compte qu'il fallait commencer par poncer les planches avant de toute monter, puis qu'il aurait peut être fallu avoir une équerre parce que c'est pas vraiment droit, et que la scie circulaire aurait été nettement plus efficace que la scie sauteuse (on sent le vécu ou pas ?). Après moult démontage, remontage et allez-retours au magasin de bricolage vous allez vous démotivez et abandonner.
 
@@ -69,9 +69,9 @@ Le dossier **assets** contient tous les fichiers *css*, *scss*, *js* et des imag
 
 Le dossier **includes** contient tous les fichiers *php* dont nous avons besoins.
 
-Le dossier **languages** dit tout avec son nom.
+Le dossier **languages** porte bien son son nom.
 
-Si le plugin devait également modifier des choses en front end, on aurait ajouté un dossier admin et front dans assets et un autre dans includes pour pouvoir bien différencier les deux parties.
+Si le plugin devait également modifier des choses en front end, on aurait ajouté des dossier *admin* et *front* dans assets et includes pour pouvoir bien différencier les deux parties.
 
 ## Les classes
 
@@ -99,7 +99,7 @@ class Plugin {
     /**
      * Plugin instance
      */
-    protected static single_instance = null;
+    private static single_instance = null;
 
     /**
      * Creates or returns an instance of this class.
@@ -114,7 +114,7 @@ class Plugin {
 }
 ```
 
-On lance ensuite le plugin et les différents hook d'activation ou de désactivation.
+On lance ensuite le plugin et les différents hooks d'activation ou de désactivation.
 
 ```php
 function aera_plugin() {
@@ -153,7 +153,7 @@ register_activation_hook( __FILE__, array( aera_plugin() , 'plugin_activate' ) )
 
 [...] et d'autres encore, mais qui sont plus *obligatoire* à utiliser, comme pour récupérer l'url de l'image à la une ou l'url de l'avatar de l'auteur.
 
-Vous pourriez très bien par exemple ne pas utiliser *register_setting()* et toutes les fonctions qui en découlent mais devrez vous même développer tout le formulaire avec la sauvegarde des options et la vérification du *nonce*. Ce serait contre productif et vous ferait écire un code beaucoup plus ourd.
+Vous pourriez très bien par exemple ne pas utiliser *register_setting()* et toutes les fonctions qui en découlent mais devrez vous même développer tout le formulaire avec la sauvegarde des options et la vérification du *nonce*. Ce serait contre productif et vous ferait écire un code beaucoup plus lourd.
 
 ## Internationalisation ou i18n
 
@@ -187,4 +187,5 @@ Pour créer un fichier *.pot* avec les chaine de caractères traduisible de votr
 wp i18n make-pot . languages/alvan-extend-wp-rest-api.pot
 ```
 
-Le fichier généré pourra être utilisé par [poedit](https://poedit.net) ou des plugins WordPress comme [Locot Translate](https://fr.wordpress.org/plugins/loco-translate/) pour créer les traductions de langues de votre choix.
+Le fichier généré pourra être utilisé par [poedit](https://poedit.net) ou des plugins WordPress comme [Loco Translate](https://fr.wordpress.org/plugins/loco-translate/) pour créer les traductions de langues de votre choix.
+
