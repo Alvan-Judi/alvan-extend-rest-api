@@ -130,10 +130,61 @@ register_activation_hook( __FILE__, array( aera_plugin() , 'plugin_activate' ) )
 
 ## Liste de hooks à utiliser
 
-- **init** pour instancier toutes nos classes
-- **plugin_action_links_{plugin_name}** pour ajouter un lien vers les réglages du plugin depuis la page de liste des plugins installés.
-- **admin_menu** pour ajouter notre page de réglages à l'administration
-- **admin_init** pour déclarer les options de notre plugin
-- **admin_enqueue_scripts** pour ajouter nos styles ou scripts
-- **rest_api_init** pour modifier les terminaisons de types de publication de l'API
+- **[init](https://developer.wordpress.org/reference/hooks/init/)** pour instancier toutes nos classes
+- **[plugin_action_links_{plugin_file}](https://developer.wordpress.org/reference/hooks/plugin_action_links_plugin_file/)** pour ajouter un lien vers les réglages du plugin depuis la page de liste des plugins installés.
+- **[admin_menu](https://developer.wordpress.org/reference/hooks/admin_menu/)** pour ajouter notre page de réglages à l'administration
+- **[admin_init](https://developer.wordpress.org/reference/hooks/admin_init/)** pour déclarer les options de notre plugin
+- **[admin_enqueue_scripts](https://developer.wordpress.org/reference/hooks/admin_enqueue_scripts/)** pour ajouter nos styles ou scripts
+- **[rest_api_init](https://developer.wordpress.org/reference/hooks/rest_api_init/)** pour modifier les terminaisons de types de publication de l'API
 
+## Liste de fonctions à utiliser
+
+- **[add_menu_page()](https://developer.wordpress.org/reference/functions/add_menu_page/)** pour ajouter notre page de réglages
+- **[register_setting()](https://developer.wordpress.org/reference/functions/register_setting/)** pour enregistrer notre nom d'option
+  - **[add_settings_section()](https://developer.wordpress.org/reference/functions/add_settings_section/)** pour définir une section de réglages liés à notre option
+  - **[add_settings_field()](https://developer.wordpress.org/reference/functions/add_settings_field/)** pour enregistrer nos options par type de post
+- **[get_rest_url()](https://developer.wordpress.org/reference/functions/get_rest_url/)** nous permet de générer l'url de nos terminaisons de post types
+- **[settings_fields()](https://developer.wordpress.org/reference/functions/settings_fields/)** génère pour nous des champs cachés pour faire lien avec notre option et également un champ *nonce* avec `wp_nonce_field()`;
+- **[do_settings_section()](https://developer.wordpress.org/reference/functions/do_settings_sections/)** qui va appeler chacun des champs qu'on a enregistré pour notre section
+- **[submit_button()](https://developer.wordpress.org/reference/functions/submit_button/)** 🤷
+- **[wp_enqueue_style()](https://developer.wordpress.org/reference/functions/wp_enqueue_style/)** pour inclure nos styles
+- **[load_plugin_textdomain()](https://developer.wordpress.org/reference/functions/load_plugin_textdomain/)** pour charger nos chaînes de charactères traduisible
+- **[register_rest_field()](https://developer.wordpress.org/reference/functions/register_rest_field/)** pour ajouter nos champs supplémentaires à l'API
+
+[...] et d'autres encore, mais qui sont plus *obligatoire* à utiliser, comme pour récupérer l'url de l'image à la une ou l'url de l'avatar de l'auteur.
+
+Vous pourriez très bien par exemple ne pas utiliser *register_setting()* et toutes les fonctions qui en découlent mais devrez vous même développer tout le formulaire avec la sauvegarde des options et la vérification du *nonce*. Ce serait contre productif et vous ferait écire un code beaucoup plus ourd.
+
+## Internationalisation ou i18n
+
+Déjà, pourquoi **i18n** ?
+
+18 représente le nombe de lettre comprise entre le *i* et le *n* d'internationalization. (oui la version anglaise, ce qui ne change rien avec nous qui avons un *s*, c'est le même nombre de caractères).
+
+Ne vous angoissez donc pas si vous tombez sur cette appelation ici et là (notamment *date_i18n()*), c'est juste un raccourci et pas un calcul mathématique compliqué :).
+
+---
+
+**Note**
+Si vous n'avez pas utilisé les fonctions d'internationalisation de WordPress et que vous avez mit vos chaînes de caractère directement dans le HTML ça ne marchera pas.
+voir : [__()](https://developer.wordpress.org/reference/functions/__/), [_e()](https://developer.wordpress.org/reference/functions/_e/), [_x()](https://developer.wordpress.org/reference/functions/_x/)
+
+`_x()` permet de spécifier un contexte. Si par exemple vous avez dans votre plugin un coup le mot *avocat* pour le fruit et un autre coup pour le métier vous pouvez donner une indication de traduction, le contexte.
+
+ex:
+
+```php
+_x('Avocat', 'fruit', 'text-domain');
+```
+
+---
+
+Pour intertan... pour internatilis.. pour inartertionalis... pour rendre traduisible votre plugin vous pouvez utiliser [wp-cli](https://wp-cli.org/fr/). Si vous ne l'avez déjà pas installé, suivez simplement les instructions.
+
+Pour créer un fichier *.pot* avec les chaine de caractères traduisible de votre plugin il suffit d'éxecuter la commande suivante depuis votre plugin.
+
+```bash
+wp i18n make-pot . languages/alvan-extend-wp-rest-api.pot
+```
+
+Le fichier généré pourra être utilisé par [poedit](https://poedit.net) ou des plugins WordPress comme [Locot Translate](https://fr.wordpress.org/plugins/loco-translate/) pour créer les traductions de langues de votre choix.
