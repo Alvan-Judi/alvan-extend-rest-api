@@ -52,7 +52,7 @@ class Settings {
 	public function __construct( $plugin ) {
 		$this->plugin                  = $plugin;
 		$this->settings_name           = 'aera-settings';
-		$this->posts_types_option_name = 'aera_options';
+		$this->posts_types_option_name = AERA_OPTION;
 	}
 
 	/**

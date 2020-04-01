@@ -25,6 +25,7 @@ use AERA\Plugin;
 
 // Define plugin basename file.
 define( 'AERA_BASENAME', plugin_basename( __FILE__ ) );
+define( 'AERA_OPTION', 'aera_options' );
 
 require_once __DIR__ . '/autoload.php';
 
@@ -42,5 +43,7 @@ function aera_plugin() {
 add_action( 'plugins_loaded', array( aera_plugin(), 'hooks' ) );
 
 // Activate hook.
-register_activation_hook( __FILE__, array( aera_plugin(), 'plugin_activate' ) );
-
+register_activation_hook( __FILE__, 'aera_plugin_uninstall' );
+function aera_plugin_uninstall() {
+	register_uninstall_hook( __FILE__, '\AERA\Plugin::plugin_uninstall' );
+}

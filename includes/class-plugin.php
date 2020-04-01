@@ -166,21 +166,12 @@ final class Plugin {
 	}
 
 	/**
-	 * Plugin activate hook
-	 *
-	 * @since 1.0.0
-	 */
-	public function plugin_activate() {
-		register_uninstall_hook( __FILE__, 'plugin_uninstall' );
-	}
-
-	/**
 	 * Plugin uninstall hook
 	 *
 	 * @since 1.0.0
 	 */
 	public function plugin_uninstall() {
-		delete_option( $this->_settings->posts_types_option_name );
+		delete_option( AERA_OPTION );
 	}
 
 	/**

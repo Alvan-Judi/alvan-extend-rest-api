@@ -11,7 +11,7 @@ Donc avant d'écumer le code du plugin, il va falloir essayer de le **créer vou
 ### Le but du plugin
 
 Le but du plugin est de permettre à l'utilisateur final, d'ajouter quelques données supplémentaires aux retours des types de publication de l'API.
-On devra vérifier pour chaque post type si  `public` et `show_in_rest` sont à `true` 
+On devra vérifier pour chaque post type si  `public` et `show_in_rest` sont à `true`.
 
 Les données additonnelles sont :
 
